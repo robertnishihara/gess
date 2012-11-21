@@ -1,4 +1,4 @@
-gess
-====
+# Gess
 
-An MCMC algorithm for sampling continuous probability distributions in parallel
+Generalized Elliptical Slice Sampling: An MCMC algorithm for sampling continuous probability distributions in parallel
+
