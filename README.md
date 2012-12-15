@@ -14,3 +14,7 @@ Gess is built in Python, and it uses the IPython.parallel module to scale MCMC o
         assert not rc.outstanding, "don't clear history when tasks are outstanding"
         rc.history = []
         dview.history = []
+
+Alternatively, it may suffice to use this command:
+
+    %reset
