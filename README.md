@@ -21,8 +21,6 @@ Depending on the version of IPython that you run, you may find that it tries to 
         rc.history = []
         dview.history = []
 
-Alternatively, it may suffice to use this command `%reset`.
-
 ### Controlling Parallelism
 
 If you are using IPython in conjunction with NumPy, you may find the load on your cluster growing unreasonably (perhaps to the point that the scheduler starts suspending jobs). This problem likely has something to do with IPython and NumPy both trying to make use of parallelism. IPython manages parallelism by creating one engine (each engine is a separate Python instance) for each available core. Then the IPython controller distributes computation to the engines and collects back the results. On the other hand, some NumPy functions try to fork a large number of threads (by calling functions from the Intel Math Kernel Library). This can be addressed by setting the appropriate environment variables on each engine:
