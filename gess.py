@@ -108,8 +108,7 @@ def parallel_gess(chains, iters, burnin, thinning, starts, logf, repeats, dview=
     assert starts.shape[0] == 2*chains, "starts is wrong shape"
     assert iters % repeats == 0, "iters must be divisible by repeats"
     assert burnin % repeats == 0, "burnin must be divisible by repeats"
-    assert iters % thinning == 0, "iters must be divisible by thinning"
-    assert burnin % thinning == 0, "burnin must be divisible by thinning"
+    assert repeats % thinning == 0, "repeats must be divisible by thinning"
 
     group1 = starts[:chains,:]
     group2 = starts[chains:,:]
