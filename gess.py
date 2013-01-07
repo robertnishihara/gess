@@ -45,9 +45,9 @@ def ess_update(x0, mu, cholSigma, logl, logf, tparams, cur_log_lklhd=None):
     x1 = x_prop + mu
     return x1, calls, cur_log_lklhd, nu
 
-def tess_update(x0, mu, Sigma, invSigma, cholSigma, nu, logl, logf, thinning, repeats):
+def tess_update(x0, info_for_engines):
+    (mu, Sigma, invSigma, cholSigma, nu, logf, logl, thinning, repeats) = info_for_engines
     dim = x0.size
-
     tparams = (dim, mu, invSigma, nu)
 
     x1 = x0
@@ -72,28 +72,30 @@ def tess_update(x0, mu, Sigma, invSigma, cholSigma, nu, logl, logf, thinning, re
 
 def parallel_tess_update(group1, group2, logf, thinning, repeats, dview=None):
     (n,dim) = group1.shape
-    t_mu, t_Sigma, t_nu = fit_mvstud.fit_mvstud(group2)
-    if t_nu == numpy.Inf:
-        t_nu = 1e6
-    t_inv_Sigma = numpy.linalg.inv(t_Sigma)
+    mu, Sigma, nu = fit_mvstud.fit_mvstud(group2)
+    if nu == numpy.Inf:
+        nu = 1e6
+    invSigma = numpy.linalg.inv(Sigma)
     try:
-        t_chol_Sigma = numpy.linalg.cholesky(t_Sigma)
+        cholSigma = numpy.linalg.cholesky(Sigma)
     except:
         print "Error: fit_mvstud failed to converge. This may mean that you are not using enough Markov chains."
         raise
 
     def logl(x, logf, tparams):
-        # tparams is (dim, mu, invSigma, nu)
         def logt(x, tparams):
             (dim, mu, invSigma, nu) = tparams
             return -(dim+nu)/2*numpy.log(1+numpy.dot(x-mu,numpy.dot(invSigma,x-mu))/nu)
         return logf(x) - logt(x, tparams)
 
+
+    info_for_engines = (mu, Sigma, invSigma, cholSigma, nu, logf, logl, thinning, repeats)
+
     if dview is None:
         print "Note that parallelism is not being used."
-        results = map(tess_update, group1, n*[t_mu], n*[t_Sigma], n*[t_inv_Sigma], n*[t_chol_Sigma], n*[t_nu], n*[logl], n*[logf], n*[thinning], n*[repeats])
+        results = map(tess_update, group1, n*[info_for_engines])
     else:
-        results = dview.map_sync(tess_update, group1, n*[t_mu], n*[t_Sigma], n*[t_inv_Sigma], n*[t_chol_Sigma], n*[t_nu], n*[logl], n*[logf], n*[thinning], n*[repeats])
+        results = dview.map_sync(tess_update, group1, n*[info_for_engines])
 
     samples = numpy.zeros((n,repeats / thinning,dim))
     calls = 0
