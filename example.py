@@ -20,7 +20,7 @@ dview.execute("os.environ['MKL_NUM_THREADS']='1'") # prevent numpy from multithr
 
 dim = 10
 num_cores = len(rc.ids)
-iters = 10000
+iters = 1000
 burnin = 1000
 thinning = 1
 repeats = 100
