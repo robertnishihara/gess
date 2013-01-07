@@ -37,4 +37,4 @@ However, the user's ability to build a good approximation depends on how the num
 
 ## Usage
 
-Sample usage is shown in the script `example.py`, which can be run on an EC2 cluster with sufficiently many cores. If you intend to use Gess on a different cluster, you will probably have to make slight adjustments.
+Sample usage is shown in the script `example.py`, which can be run on an EC2 cluster with sufficiently many cores. If you intend to use EC2, you should read about using [IPython on starcluster](http://star.mit.edu/cluster/docs/0.93.3/plugins/ipython.html). If you intend to use Gess on a different cluster, you will probably have to make slight adjustments.
