@@ -79,8 +79,8 @@ def parallel_tess_update(group1, group2, logf, thinning, repeats, dview=None):
     try:
         t_chol_Sigma = numpy.linalg.cholesky(t_Sigma)
     except:
-        import cPickle
-        cPickle.dump(t_Sigma, open('output/t_sigma_fail.pickle', 'wb'))
+        print "Error: fit_mvstud failed to converge. This may mean that you are not using enough Markov chains."
+        raise
 
     def logl(x, logf, tparams):
         # tparams is (dim, mu, invSigma, nu)
