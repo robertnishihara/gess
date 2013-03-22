@@ -107,7 +107,7 @@ def parallel_tess_update(group1, group2, logf, thinning, repeats, dview=None):
 
 def parallel_gess(chains, iters, burnin, thinning, starts, logf, repeats, dview=None):
     dim = starts.shape[1]
-    assert starts.shape[0] == 2*chains, "starts is wrong shape"
+    assert starts.shape[0] == 2 * chains, "starts is wrong shape"
     assert iters % repeats == 0, "iters must be divisible by repeats"
     assert burnin % repeats == 0, "burnin must be divisible by repeats"
     assert repeats % thinning == 0, "repeats must be divisible by thinning"
@@ -120,9 +120,9 @@ def parallel_gess(chains, iters, burnin, thinning, starts, logf, repeats, dview=
     # do the sampling
     for i in xrange(-burnin / repeats, iters / repeats):
         samples1, calls1 = parallel_tess_update(group1, group2, logf, thinning, repeats, dview)
-        group1 = samples1[:,repeats / thinning -1,:]
+        group1 = samples1[:,repeats / thinning - 1,:]
         samples2, calls2 = parallel_tess_update(group2, group1, logf, thinning, repeats, dview)
-        group2 = samples2[:,repeats / thinning -1,:]
+        group2 = samples2[:,repeats / thinning - 1,:]
 
         if i >= 0:
             # update samples
