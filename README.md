@@ -2,7 +2,7 @@
 
 Generalized Elliptical Slice Sampling: An MCMC algorithm for sampling continuous probability distributions in parallel
 
-Suppose you want to run MCMC and you have access to a lot of cores, what is the best that you can do? Of course you could run a number of independent Markov chains in parallel, but it would be nice if there was a way to share information between Markov chains to speed up the process of sampling. Gess accomplishes this by using the current states of the parallel Markov chains to build an approximation to the target distribution. This approximation is used to factor the target distribution in a form that enables us to use [Elliptical Slice Sampling](http://arxiv.org/pdf/1001.0175v2.pdf) to update each Markov chain in parallel. See the [paper](http://arxiv.org/pdf/1210.7477v1.pdf) for a description of the algorithm.
+Suppose you want to run MCMC and you have access to a lot of cores, what is the best that you can do? Of course you could run a number of independent Markov chains in parallel, but it would be nice if there was a way to share information between Markov chains to speed up the process of sampling. Gess accomplishes this by using the current states of the parallel Markov chains to build an approximation to the target distribution. This approximation is used to factor the target distribution in a form that enables us to use [Elliptical Slice Sampling](http://arxiv.org/pdf/1001.0175v2.pdf) to update each Markov chain in parallel. See the [paper](http://arxiv.org/pdf/1210.7477v2.pdf) for a description of the algorithm.
 
 ## Using IPython for Parallelism
 
